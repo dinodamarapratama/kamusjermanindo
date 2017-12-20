@@ -25,7 +25,28 @@ permission on your app, which PhoneGap requires.
 <preference name="android-minSdkVersion" value="7" /> <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
 <preference name="android-installLocation" value="auto" /> <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
 <preference name="fullscreen" value="false" />
-
+<preference name="SplashScreen" value="splash" />
+<preference name="SplashScreenDelay" value="2000" />
+  
+<plugin name="org.apache.cordova.battery-status" />
+<plugin name="org.apache.cordova.camera" />
+<plugin name="org.apache.cordova.media-capture" />
+<plugin name="org.apache.cordova.console" />
+<plugin name="org.apache.cordova.contacts" />
+<plugin name="org.apache.cordova.device" />
+<plugin name="org.apache.cordova.device-motion" />
+<plugin name="org.apache.cordova.device-orientation" />
+<plugin name="org.apache.cordova.dialogs" />
+<plugin name="org.apache.cordova.file" />
+<plugin name="org.apache.cordova.file-transfer" />
+<plugin name="org.apache.cordova.geolocation" />
+<plugin name="org.apache.cordova.globalization" />
+<plugin name="org.apache.cordova.inappbrowser" />
+<plugin name="org.apache.cordova.media" />
+<plugin name="org.apache.cordova.network-information" />
+<plugin name="org.apache.cordova.splashscreen" />
+<plugin name="org.apache.cordova.vibration" />
+  
 <!-- Define app icon for each platform. -->
 <icon src="images/icon-48-mdpi.png" />
 <icon src="images/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
