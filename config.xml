@@ -27,12 +27,7 @@ permission on your app, which PhoneGap requires.
 <preference name="fullscreen" value="false" />
 <preference name="SplashScreen" value="splash" />
 <preference name="SplashScreenDelay" value="2000" />
-\
-<!-- Third party plugins -->
-<!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
-<!--
-<gap:plugin name="com.phonegap.plugins.barcodescanner" />
--->
+
 <!-- Define app icon for each platform. -->
 <icon src="images/icon-48-mdpi.png" />
 <icon src="images/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
