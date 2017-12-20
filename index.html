@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kamus</title>
+    <meta name="author" content="Dino" />
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/two.min.css">
+    <script src="js/jquery.mobile-1.4.2.min.js"></script>
+    <!-- <link rel="stylesheet" href="css/jqm-demos.css"> -->
+    <script type="text/javascript" charset="utf-8">
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        function onDeviceReady() {}
+
+        function doClose() {
+            navigator.notification.confirm(
+                'Keluar dari Aplikasi?',
+                exitApp,
+                'Kamus Jerman Indo',
+                'Ok,Cancel'
+            );
+        }
+
+        function exitApp(buttonIndex) {
+            if (buttonIndex == 1) {
+                navigator.app.exitApp();
+            } else {
+                window.close();
+            }
+        }
+    </script>
+
+    <style type='text/css'>
+        body {
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-weight: lighter;
+        font-size: 14px;
+        }
+        #left-panel .ui-panel-inner>.ui-listview {
+            margin-bottom: 0;
+        }
+        #left-panel .ui-collapsible-set {
+            margin: 0;
+        }
+        #left-panel .ui-panel-inner>.ui-collapsible>.ui-collapsible-content {
+            padding-top: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        #left-panel .ui-panel-inner>.ui-collapsible>.ui-collapsible-heading .ui-btn,
+        #left-panel .ui-collapsible.ui-first-child .ui-collapsible-heading .ui-btn {
+            border-top: none;
+        }
+
+        #left-panel .ui-collapsible-heading .ui-btn-inner {
+            padding: .7em 40px .7em 15px;
+        }
+
+        #left-panel .ui-collapsible-set .ui-collapsible-heading .ui-btn-inner {
+            padding: .5em 40px .5em 15px;
+
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        a:visited {
+            text-decoration: none;
+        }
+
+    </style>
+
+
+
+</head>
+
+<body class="ui-mobile-viewport ui-overlay-a">
+    <div data-role="page" id="beranda" class="jqm-demos jqm-home">
+        <div data-role="header" class="jqm-header">
+            <div>
+                <h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
+                </h2>
+                <h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus Bergambar Indonesia Jerman</h2>
+            </div>
+        </div>
+
+        <div role="main" data-theme="c" class="ui-content jqm-content">
+            <img style="margin-top:20px" width="100%" src="images/Germany-Flag-Logo-in-Map-Wallpapers.png">
+        </div>
+
+        <div data-role="panel" data-position-fixed="true" data-display="reveal" id="left-panel">
+            <ul data-role="listview" data-theme="a">
+                <li data-icon="delete"><a href="#" data-rel="close"><img src="images/home.png"class="ui-li-icon">Tutup Menu</a></li>
+                <li> <a href="sejarahIndo.html" style="white-space: normal;" data-ajax="false" data-transition="pop"><img src="images/Indonesia-icon.png"class="ui-li-icon">Sejarah Bahasa Indonesia</a>
+                </li>
+                <li> <a href="sejarahJerman.html" style="white-space: normal;" data-ajax="false" data-transition="pop"><img src="images/Germany-icon.png"class="ui-li-icon">Sejarah Bahasa Jerman</a>
+                </li>
+            </ul>
+
+
+
+            <div data-role="collapsible" data-inset="false" data-iconpos="right" data-collapsed-icon="carat-r" data-expanded-icon="carat-d" data-theme="d" data-content-theme="d">
+                <h4 style="white-space: normal"><img src="images/dictionary.png" width="20px" alt="US Flag" /> Kamus</h4>
+                <ul data-role="listview">
+                    <li>
+                        <a href="kamus.html" data-ajax="false">Warna</a>
+                    </li>
+                    <li>
+                        <a href="kamus2.html" data-ajax="false">
+              Binatang
+            </a>
+                    </li>
+                    <li>
+                        <a href="kamus3.html" data-ajax="false">
+              Buah
+            </a>
+                    </li>
+                    <li>
+                        <a href="kamus4.html" data-ajax="false">
+              Angka
+            </a>
+                    </li>
+                    <li>
+                        <a href="kamus5.html" data-ajax="false">
+              Abjad
+            </a>
+                    </li>
+                    <li>
+                        <a href="greetings.html" data-ajax="false">
+              Sapaan
+            </a>
+                    </li>
+                </ul>
+
+            </div>
+            <p style="line-height:2px;"></p>
+            <ul data-role="listview" data-theme="a">
+                <li> <a href="#tentang" style="white-space: normal;" data-ajax="false" data-transition="pop"><img src="images/icon-self-learn.png"class="ui-li-icon">Tentang</a>
+                </li>
+            </ul>
+
+        </div>
+        <!-- /panel -->
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar" data-iconpos="bottom">
+                <ul>
+                    <li><a href="#left-panel" data-icon="bars" class="tabButton">Menu</a></li>
+                    <li><a href="#bantuan" data-ajax="false" data-icon="info">Bantuan</a></li>
+                    <li><a data-icon="delete" onclick="doClose()">Keluar</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div data-role="page" id="tentang" class="jqm-demos jqm-home">
+        <div data-role="header" class="jqm-header">
+            <div>
+                <h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
+                </h2>
+                <h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Tentang</h2>
+            </div>
+        </div>
+
+
+        <div role="main" data-theme="c" class="ui-content jqm-content" align="center">
+
+   <p>Kamus Bergambar Indonesia Jerman (C) 2014 RIZCHA CHINTYA RAHMAYANTY</p>
+	</div>
+<div data-role="footer" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#beranda" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<div data-role="page" id="bantuan" class="jqm-demos jqm-home"   >
+	 <div data-role="header" class="jqm-header"   >
+	 <div>
+		<h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png"   >
+		</h2>
+		<h2 aria-level="1" style="white-space: normal;"  role="heading" class="ui-title">Kamus Bergambar Indonesia Jerman</h2>
+</div>
+
+
+    </div>
+
+
+<div role="main" data-theme="c"  class="ui-content jqm-content"  >
+  Aplikasi ini menyediakan informasi mengenai dua fitur utama, yaitu :<br><ul><li>Halaman Sejarah Bahasa Indonesia dan Jerman</li></ul><ul><li>Halaman Kamus</li></ul><br>
+<hr>Halaman Sejarah berisi informasi singkat mengenai sejarah bahasa Indonesia dan Jerman
+<br/><br/>
+Sedangkan pada halaman Kamus berisi fitur yang menerangkan makna kata-kata. Berfungsi untuk membantu seseorang mengenal perbandingan Bahasa Indonesia dan Jerman<br>
+	</b>
+        </div>
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#beranda" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
