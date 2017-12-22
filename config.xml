@@ -29,6 +29,15 @@ permission on your app, which PhoneGap requires.
 <preference name="SplashScreenDelay" value="2000" />
   
 <plugin name="cordova-plugin-battery-status" spec="~2.0.0" />
+<plugin name="cordova-plugin-dialogs" spec="~2.0.0" />
+<plugin name="cordova-plugin-file" spec="~6.0.0" />
+<plugin name="cordova-plugin-file-transfer" spec="~1.7.0" />
+<plugin name="cordova-plugin-inappbrowser" spec="~2.0.0" />
+<plugin name="cordova-plugin-media" spec="~5.0.0" />
+<plugin name="cordova-plugin-network-information" spec="~2.0.0" />
+<plugin name="cordova-plugin-splashscreen" spec="~5.0.0" />
+<plugin name="cordova-plugin-vibration" spec="~3.0.0" />
+
 
   
 <!-- Define app icon for each platform. -->
