@@ -53,6 +53,16 @@
 }
 
 
+function playAudio_2() {
+
+  var media = new Media('http://www.vorbis.com/music/Epoq-Lepidoptera.ogg', onSuccess, onError);
+  media.play();
+
+}
+
+
+
+
 
         function doClose() {
             navigator.notification.confirm(
@@ -106,6 +116,7 @@
                                         <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/abu-abu.mp3')">
                                         <figcaption style="font-weight:bold;">Abu-abu</figcaption>
                                         <button  onclick="playAudio('file:///android_asset/www/audio/warna/2/abu-abu.mp3')">test</button>
+                                        <button  onclick="playAudio_2()">test 2</button>
                                     </figure>
                                 </div>
                                 <div class="ui-block-b">
