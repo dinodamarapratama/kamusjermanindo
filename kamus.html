@@ -39,19 +39,18 @@
 
 
         function playAudio(src) {
-            // Create Media object from src
-            var my_media = new Media(src,
-                    // success callback
-                     function () { alert("playAudio():Audio Success"); },
-                    // error callback
-                     function (err) { alert("playAudio():Audio Error: " + err); }
-            );
-
-            // Play audio
-            my_media.play();
-
-
-        }
+    var url = src;
+    var my_media = new Media(url,
+            // success callback
+             function () { console.log("playAudio():Audio Success"); },
+            // error callback
+             function (err) { console.log("playAudio():Audio Error: " + err);
+                            alert(JSON.stringify(err))
+                            }
+    );
+           // Play audio
+    my_media.play();
+}
 
 
 
