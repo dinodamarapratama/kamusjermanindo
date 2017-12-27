@@ -55,12 +55,14 @@
 
 function playAudio_2() {
 
-  var media = new Media('http://www.vorbis.com/music/Epoq-Lepidoptera.ogg', onSuccess, onError);
-  media.play();
+  // var media = new Media('http://www.vorbis.com/music/Epoq-Lepidoptera.ogg', onSuccess, onError);
+  // media.play();
 
+  var audioUrl = 'http://www.vorbis.com/music/Epoq-Lepidoptera.ogg';
+
+    // Play an audio file (not recommended, since the screen will be plain black)
+    window.plugins.streamingMedia.playAudio(audioUrl);
 }
-
-
 
 
 
