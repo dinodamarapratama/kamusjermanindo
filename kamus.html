@@ -30,14 +30,15 @@
         //
         document.addEventListener("deviceready", onDeviceReady, false);
 
-        // Cordova is ready
-        //
-        function onDeviceReady() {
 
-        }
 
 
 function playAudio(src) {
+
+
+
+
+
   var options = {
     bgColor: "#FFFFFF",
     bgImage: "<SWEET_BACKGROUND_IMAGE>",
@@ -51,9 +52,13 @@ function playAudio(src) {
     }
   };
 
-  var audioUrl = src;
-  // var audioUrl = 'http://www.vorbis.com/music/Epoq-Lepidoptera.ogg';
-    window.plugins.streamingMedia.playAudio(audioUrl, options);
+  // var audioUrl = src;
+  var audioUrl = 'http://www.vorbis.com/music/Epoq-Lepidoptera.ogg';
+    // window.plugins.streamingMedia.playAudio(audioUrl, options);
+
+    var audio = new Media( audioUrl, null, media_error );
+
+  audio.play();
 }
 
 
