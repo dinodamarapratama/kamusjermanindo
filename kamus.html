@@ -37,32 +37,26 @@
         }
 
 
+function playAudio(src) {
+  var options = {
+    bgColor: "#FFFFFF",
+    bgImage: "<SWEET_BACKGROUND_IMAGE>",
+    bgImageScale: "fit", // other valid values: "stretch"
+    initFullscreen: false, // true(default)/false iOS only
+    successCallback: function() {
+      console.log("Player closed without error.");
+    },
+    errorCallback: function(errMsg) {
+      console.log("Error! " + errMsg);
+    }
+  };
 
-        function playAudio(src) {
-    var url = src;
-    var my_media = new Media(url,
-            // success callback
-             function () { console.log("playAudio():Audio Success"); },
-            // error callback
-             function (err) { console.log("playAudio():Audio Error: " + err);
-                            alert(JSON.stringify(err))
-                            }
-    );
-           // Play audio
-    my_media.play();
+  var audioUrl = src;
+  // var audioUrl = 'http://www.vorbis.com/music/Epoq-Lepidoptera.ogg';
+    window.plugins.streamingMedia.playAudio(audioUrl, options);
 }
 
 
-function playAudio_2() {
-
-  // var media = new Media('http://www.vorbis.com/music/Epoq-Lepidoptera.ogg', onSuccess, onError);
-  // media.play();
-
-  var audioUrl = 'http://www.vorbis.com/music/Epoq-Lepidoptera.ogg';
-
-    // Play an audio file (not recommended, since the screen will be plain black)
-    window.plugins.streamingMedia.playAudio(audioUrl);
-}
 
 
 
@@ -117,8 +111,6 @@ function playAudio_2() {
                                     <figure>
                                         <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/abu-abu.mp3')">
                                         <figcaption style="font-weight:bold;">Abu-abu</figcaption>
-                                        <button  onclick="playAudio('file:///android_asset/www/audio/warna/2/abu-abu.mp3')">test</button>
-                                        <button  onclick="playAudio_2()">test 2</button>
                                     </figure>
                                 </div>
                                 <div class="ui-block-b">
