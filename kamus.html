@@ -38,21 +38,21 @@
 
 
 function playAudio(src) {
-  // var options = {
-  //   bgColor: "#FFFFFF",
-  //   bgImage: "<SWEET_BACKGROUND_IMAGE>",
-  //   bgImageScale: "fit",
-  //   initFullscreen: false,
-  //   successCallback: function() {
-  //     console.log("Player closed without error.");
-  //   },
-  //   errorCallback: function(errMsg) {
-  //     console.log("Error! " + errMsg);
-  //   }
-  // };
+  var options = {
+    bgColor: "#FFFFFF",
+    bgImage: "<SWEET_BACKGROUND_IMAGE>",
+    bgImageScale: "fit",
+    initFullscreen: false,
+    successCallback: function() {
+      console.log("Player closed without error.");
+    },
+    errorCallback: function(errMsg) {
+      console.log("Error! " + errMsg);
+    }
+  };
 
-  var audioUrl = src;
-  // var audioUrl = 'http://www.vorbis.com/music/Epoq-Lepidoptera.ogg';
+  // var audioUrl = src;/
+  var audioUrl = 'http://www.vorbis.com/music/Epoq-Lepidoptera.ogg';
     window.plugins.streamingMedia.playAudio(audioUrl, options);
 }
 
