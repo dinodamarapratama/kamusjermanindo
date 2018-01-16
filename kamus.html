@@ -38,18 +38,18 @@
 
 
 function playAudio(src) {
-  var options = {
-    bgColor: "#FFFFFF",
-    bgImage: "<SWEET_BACKGROUND_IMAGE>",
-    bgImageScale: "fit", // other valid values: "stretch"
-    initFullscreen: false, // true(default)/false iOS only
-    successCallback: function() {
-      console.log("Player closed without error.");
-    },
-    errorCallback: function(errMsg) {
-      console.log("Error! " + errMsg);
-    }
-  };
+  // var options = {
+  //   bgColor: "#FFFFFF",
+  //   bgImage: "<SWEET_BACKGROUND_IMAGE>",
+  //   bgImageScale: "fit",
+  //   initFullscreen: false,
+  //   successCallback: function() {
+  //     console.log("Player closed without error.");
+  //   },
+  //   errorCallback: function(errMsg) {
+  //     console.log("Error! " + errMsg);
+  //   }
+  // };
 
   var audioUrl = src;
   // var audioUrl = 'http://www.vorbis.com/music/Epoq-Lepidoptera.ogg';
@@ -111,6 +111,7 @@ function playAudio(src) {
                                     <figure>
                                         <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/abu-abu.mp3')">
                                         <figcaption style="font-weight:bold;">Abu-abu</figcaption>
+
                                     </figure>
                                 </div>
                                 <div class="ui-block-b">
