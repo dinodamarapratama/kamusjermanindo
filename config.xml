@@ -27,14 +27,14 @@ permission on your app, which PhoneGap requires.
 <preference name="fullscreen" value="false" />
 <preference name="SplashScreen" value="splash" />
 <preference name="SplashScreenDelay" value="2000" />
-  
+
 <plugin name="cordova-plugin-battery-status" spec="2.0.0" />
 <plugin name="cordova-plugin-console" spec="1.1.0" />
 <plugin name="cordova-plugin-dialogs" spec="2.0.0" />
 <plugin name="cordova-plugin-device" spec="2.0.0" />
 <plugin name="cordova-plugin-file" spec="6.0.0" />
 <plugin name="cordova-plugin-inappbrowser" spec="2.0.0" />
- <plugin name="cordova-plugin-media" spec="5.0.0" />
+<plugin name="cordova-plugin-media" spec="5.0.0" />
 <plugin name="cordova-plugin-network-information" spec="2.0.0" />
 <plugin name="cordova-plugin-splashscreen" spec="5.0.0" />
 <plugin name="cordova-plugin-vibration" spec="3.0.0" />
@@ -42,7 +42,7 @@ permission on your app, which PhoneGap requires.
 <plugin name="cordova-plugin-streaming-media" spec="1.0.1" />
 
 
-  
+
 <!-- Define app icon for each platform. -->
 <icon src="images/icon-48-mdpi.png" />
 <icon src="images/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
