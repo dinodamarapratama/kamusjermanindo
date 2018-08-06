@@ -26,19 +26,12 @@
         function onDeviceReady() {
         }
 
-        // Wait for Cordova to load
-        //
         document.addEventListener("deviceready", onDeviceReady, false);
 
 
 
 
 function playAudio(src) {
-
-
-
-
-
   var options = {
     bgColor: "#FFFFFF",
     bgImage: "<SWEET_BACKGROUND_IMAGE>",
@@ -51,13 +44,11 @@ function playAudio(src) {
       console.log("Error! " + errMsg);
     }
   };
-
   // var audioUrl = src;
-  var audioUrl = 'http://www.vorbis.com/music/Epoq-Lepidoptera.ogg';
+  var audioUrl = '';
     // window.plugins.streamingMedia.playAudio(audioUrl, options);
 
-    var audio = new Media( audioUrl, null, media_error );
-
+    var audio = new Media( src, null, media_error );
   audio.play();
 }
 
@@ -88,323 +79,282 @@ function playAudio(src) {
     }
     </style>
 </head>
-
 <body class="ui-mobile-viewport ui-overlay-a">
-
-
-    <div data-role="page" data-theme="a" id="warna" class="jqm-demos jqm-home">
-        <div data-role="header" class="jqm-header">
-            <div>
-                <h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
-                </h2>
-                <h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
-            </div>
-            <a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
-        </div>
-
-
-        <div role="main" class="ui-content jqm-content" align="center">
-            <div class="swiper-container swiper-content">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/warna/Picture1.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/abu-abu.mp3')">
-                                        <figcaption style="font-weight:bold;">Abu-abu</figcaption>
-
-
-                                        <button  onclick="playAudio('file:///android_asset/www/audio/warna/2/abu-abu.mp3')">test</button>
-                                        <button  onclick="playAudio()">test 2</button>
-
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/grau.mp3')">
-                                        <figcaption style="font-weight:bold;">Grau</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/warna/Picture2.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/biru.mp3');">
-                                        <figcaption style="font-weight:bold;">Biru</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/blau.mp3');">
-                                        <figcaption style="font-weight:bold;">Blau</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/warna/Picture3.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/hijau.mp3');">
-                                        <figcaption style="font-weight:bold;">Hijau</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/grun.mp3');">
-                                        <figcaption style="font-weight:bold;">Grun</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/warna/Picture4.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/hitam.mp3');">
-                                        <figcaption style="font-weight:bold;">Hitam</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/schwarz.mp3');">
-                                        <figcaption style="font-weight:bold;">Schwartz</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/warna/Picture5.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/merah_muda.mp3');">
-                                        <figcaption style="font-weight:bold;">Merah Muda</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/rosa.mp3');">
-                                        <figcaption style="font-weight:bold;">Rosa</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/warna/Picture6.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/merah.mp3');">
-                                        <figcaption style="font-weight:bold;">Merah</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/rot.mp3');">
-                                        <figcaption style="font-weight:bold;">Rot</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/warna/Picture7.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/coklat.mp3');">
-                                        <figcaption style="font-weight:bold;">Coklat</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/braun.mp3');">
-                                        <figcaption style="font-weight:bold;">Braun</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/warna/Picture8.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/merah.mp3');">
-                                        <figcaption style="font-weight:bold;">Ungu</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/rot.mp3');">
-                                        <figcaption style="font-weight:bold;">Lila</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/warna/Picture9.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/ungu.mp3');">
-                                        <figcaption style="font-weight:bold;">Kuning</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/lila.mp3');">
-                                        <figcaption style="font-weight:bold;">Gelb</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-
-
-
-                </div>
-            </div>
-
-
-
-            <div class="swiper-container swiper-nav" data-position="fixed">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide active-nav">
-                        <span class="angle"></span>
-                        <img src="images/icon/warna/Picture1.jpg" alt="">
-                        <div class="title">Warna 1</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/warna/Picture2.jpg" alt="">
-                        <div class="title">Warna 2</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/warna/Picture3.jpg" alt="">
-                        <div class="title">Warna 3</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/warna/Picture4.jpg" alt="">
-                        <div class="title">Warna 4</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/warna/Picture5.jpg" alt="">
-                        <div class="title">Warna 5</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/warna/Picture6.jpg" alt="">
-                        <div class="title">Warna 6</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/warna/Picture7.jpg" alt="">
-                        <div class="title">Warna 7</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/warna/Picture8.jpg" alt="">
-                        <div class="title">Warna 8</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/warna/Picture9.jpg" alt="">
-                        <div class="title">Warna 9</div>
-                    </div>
-
-
-                </div>
-            </div>
-
-
-        </div>
-        <div data-role="footer" data-theme="c">
-            <div data-role="navbar">
-                <ul>
-                    <li><a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a></li>
-
-                </ul>
-            </div>
-        </div>
-    </div>
-
-
-
-    <script src="movies/js/jquery.min.js"></script>
-    <!-- Don't forget to get the latest Swiper and scrollbar version here-->
-    <script src="movies/js/idangerous.swiper-2.0.min.js"></script>
-    <script src="movies/js/movies-app.js"></script>
-
+	<div data-role="page" data-theme="a" id="warna" class="jqm-demos jqm-home">
+		<div data-role="header" class="jqm-header">
+			<div>
+				<h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
+				</h2>
+				<h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
+			</div>
+			<a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
+		</div>
+		<div role="main" class="ui-content jqm-content" align="center">
+			<div class="swiper-container swiper-content">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/icon/warna/Picture1.jpg">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/abu-abu.mp3')">
+										<figcaption style="font-weight:bold;">Abu-abu</figcaption>
+										<button  onclick="playAudio('file:///android_asset/www/audio/warna/2/abu-abu.mp3')">test</button>
+										<button  onclick="playAudio('https://s1.vocaroo.com/media/download_temp/Vocaroo_s1sc6gCQBq9W.mp3')">test 2</button>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/grau.mp3')">
+										<figcaption style="font-weight:bold;">Grau</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/icon/warna/Picture2.jpg">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/biru.mp3');">
+										<figcaption style="font-weight:bold;">Biru</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/blau.mp3');">
+										<figcaption style="font-weight:bold;">Blau</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/icon/warna/Picture3.jpg">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/hijau.mp3');">
+										<figcaption style="font-weight:bold;">Hijau</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/grun.mp3');">
+										<figcaption style="font-weight:bold;">Grun</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/icon/warna/Picture4.jpg">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/hitam.mp3');">
+										<figcaption style="font-weight:bold;">Hitam</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/schwarz.mp3');">
+										<figcaption style="font-weight:bold;">Schwartz</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/icon/warna/Picture5.jpg">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/merah_muda.mp3');">
+										<figcaption style="font-weight:bold;">Merah Muda</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/rosa.mp3');">
+										<figcaption style="font-weight:bold;">Rosa</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/icon/warna/Picture6.jpg">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/merah.mp3');">
+										<figcaption style="font-weight:bold;">Merah</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/rot.mp3');">
+										<figcaption style="font-weight:bold;">Rot</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/icon/warna/Picture7.jpg">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/coklat.mp3');">
+										<figcaption style="font-weight:bold;">Coklat</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/braun.mp3');">
+										<figcaption style="font-weight:bold;">Braun</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/icon/warna/Picture8.jpg">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/merah.mp3');">
+										<figcaption style="font-weight:bold;">Ungu</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/rot.mp3');">
+										<figcaption style="font-weight:bold;">Lila</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/icon/warna/Picture9.jpg">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/warna/2/ungu.mp3');">
+										<figcaption style="font-weight:bold;">Kuning</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/warna/1/lila.mp3');">
+										<figcaption style="font-weight:bold;">Gelb</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-container swiper-nav" data-position="fixed">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide active-nav">
+						<span class="angle"></span>
+						<img src="images/icon/warna/Picture1.jpg" alt="">
+						<div class="title">Warna 1</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/icon/warna/Picture2.jpg" alt="">
+						<div class="title">Warna 2</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/icon/warna/Picture3.jpg" alt="">
+						<div class="title">Warna 3</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/icon/warna/Picture4.jpg" alt="">
+						<div class="title">Warna 4</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/icon/warna/Picture5.jpg" alt="">
+						<div class="title">Warna 5</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/icon/warna/Picture6.jpg" alt="">
+						<div class="title">Warna 6</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/icon/warna/Picture7.jpg" alt="">
+						<div class="title">Warna 7</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/icon/warna/Picture8.jpg" alt="">
+						<div class="title">Warna 8</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/icon/warna/Picture9.jpg" alt="">
+						<div class="title">Warna 9</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div data-role="footer" data-theme="c">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script src="movies/js/jquery.min.js"></script>
+	<!-- Don't forget to get the latest Swiper and scrollbar version here-->
+	<script src="movies/js/idangerous.swiper-2.0.min.js"></script>
+	<script src="movies/js/movies-app.js"></script>
 </body>
-
 </html>
