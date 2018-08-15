@@ -1,909 +1,789 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kamus</title>
-    <meta name="author" content="Dino" />
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="css/one.min.css"> -->
-    <script src="js/jquery.mobile-1.4.2.min.js"></script>
-    <!-- <link rel="stylesheet" href="css/jqm-demos.css"> -->
-    <link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
-
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-
-
-    <link rel="stylesheet" href="movies/css/idangerous.swiper.css">
-
-    <link rel="stylesheet" href="movies/css/movies-app.css">
-
-    <script type="text/javascript" charset="utf-8">
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-
-        function onDeviceReady() {
-
-        }
-
-        // Wait for Cordova to load
-        //
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-        // Cordova is ready
-        //
-        function onDeviceReady() {
-
-        }
-
-        // Audio player
-        //
-        var my_media = null;
-        var mediaTimer = null;
-
-
-        // Play audio
-        //
-        function playAudio(src) {
-            // Create Media object from src
-            my_media = new Media(src, onSuccess, onError);
-
-            // Play audio
-            my_media.play();
-
-            // Update my_media position every second
-            if (mediaTimer == null) {
-                mediaTimer = setInterval(function() {
-                    // get my_media position
-                    my_media.getCurrentPosition(
-                        // success callback
-                        function(position) {
-                            if (position > -1) {
-                                setAudioPosition((position) + " sec");
-                            }
-                        },
-                        // error callback
-                        function(e) {
-                            console.log("Error getting pos=" + e);
-                            setAudioPosition("Error: " + e);
-                        }
-                    );
-                }, 1000);
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Kamus</title>
+		<meta name="author" content="Dino" />
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/jquery.mobile-1.4.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>
+		<script type="text/javascript" src="phonegap.js"></script>
+		<link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" href="movies/css/idangerous.swiper.css">
+		<link rel="stylesheet" href="movies/css/movies-app.css">
+		<script type="text/javascript" charset="utf-8">
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function playAudio(src) {
+        var options = {
+            bgColor: "#FFFFFF",
+            bgImage: "",
+            bgImageScale: "fit",
+            initFullscreen: false,
+            successCallback: function() {
+                console.log("Player closed without error.");
+            },
+            errorCallback: function(errMsg) {
+                console.log("Error! " + errMsg);
             }
+        };
+        window.plugins.streamingMedia.playAudio(src, options);
+    }
+
+
+    function doClose() {
+        navigator.notification.confirm(
+            'Keluar dari Aplikasi?',
+            exitApp,
+            'Kamus Jerman Indo',
+            'Ok,Cancel'
+        );
+    }
+
+    function exitApp(buttonIndex) {
+        if (buttonIndex == 1) {
+            navigator.app.exitApp();
+        } else {
+            window.close();
         }
-
-        // Pause audio
-        //
-        function pauseAudio() {
-            if (my_media) {
-                my_media.pause();
-            }
-        }
-
-        // Stop audio
-        //
-        function stopAudio() {
-            if (my_media) {
-                my_media.stop();
-            }
-            clearInterval(mediaTimer);
-            mediaTimer = null;
-        }
-
-        // onSuccess Callback
-        //
-        function onSuccess() {
-            console.log("playAudio():Audio Success");
-        }
-
-        // onError Callback
-        //
-        function onError(error) {
-            alert('code: ' + error.code + '\n' +
-                'message: ' + error.message + '\n');
-        }
-
-        // Set audio position
-        //
-        function setAudioPosition(position) {
-            document.getElementById('audio_position').innerHTML = position;
-        }
-
-
-
-
-        function doClose() {
-            navigator.notification.confirm(
-                'Keluar dari Aplikasi?',
-                exitApp,
-                'Kamus Jerman Indo',
-                'Ok,Cancel'
-            );
-        }
-
-        function exitApp(buttonIndex) {
-            if (buttonIndex == 1) {
-                navigator.app.exitApp();
-            } else {
-                window.close();
-            }
-        }
+    }
     </script>
-
-    <style>
-        .ui-grid-a {
-            margin-top: 40px;
-        }
-    </style>
-
-</head>
-
-<body class="ui-mobile-viewport ui-overlay-a">
-    <div data-role="page" data-theme="a" id="abjad" class="jqm-demos jqm-home">
-        <div data-role="header" class="jqm-header">
-            <div>
-                <h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
-
-                </h2>
-
-                <h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
-            </div>
-            <a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
-        </div>
-
-
-        <div role="main" class="ui-content jqm-content" align="center">
-            <div class="swiper-container swiper-content">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-A-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/a.mp3');">
-                                        <figcaption style="font-weight:bold;">A</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/ein.mp3');">
-                                        <figcaption style="font-weight:bold;">Ein</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-B-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/b.mp3');">
-                                        <figcaption style="font-weight:bold;">B</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/b.mp3');">
-                                        <figcaption style="font-weight:bold;">B</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-C-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/c.mp3');">
-                                        <figcaption style="font-weight:bold;">C</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/c.mp3');">
-                                        <figcaption style="font-weight:bold;">C</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-D-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/d.mp3');">
-                                        <figcaption style="font-weight:bold;">D</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/d.mp3');">
-                                        <figcaption style="font-weight:bold;">D</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-E-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/e.mp3');">
-                                        <figcaption style="font-weight:bold;">E</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/e.mp3');">
-                                        <figcaption style="font-weight:bold;">E</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-F-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/f.mp3');">
-                                        <figcaption style="font-weight:bold;">F</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/f.mp3');">
-                                        <figcaption style="font-weight:bold;">F</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-G-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/g.mp3');">
-                                        <figcaption style="font-weight:bold;">G</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/g.mp3');">
-                                        <figcaption style="font-weight:bold;">G</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-H-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/h.mp3');">
-                                        <figcaption style="font-weight:bold;">H</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/h.mp3');">
-                                        <figcaption style="font-weight:bold;">H</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-I-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/i.mp3);">
-                                        <figcaption style="font-weight:bold;">I</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/ich.mp3');">
-                                        <figcaption style="font-weight:bold;">Ich</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-J-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/j.mp3');">
-                                        <figcaption style="font-weight:bold;">J</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/j.mp3');">
-                                        <figcaption style="font-weight:bold;">J</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-K-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/k.mp3');">
-                                        <figcaption style="font-weight:bold;">K</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/k.mp3');">
-                                        <figcaption style="font-weight:bold;">K</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-L-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/l.mp3');">
-                                        <figcaption style="font-weight:bold;">L</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/l.mp3');">
-                                        <figcaption style="font-weight:bold;">L</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-M-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/m.mp3');">
-                                        <figcaption style="font-weight:bold;">M</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/m.mp3');">
-                                        <figcaption style="font-weight:bold;">M</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-N-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/n.mp3');">
-                                        <figcaption style="font-weight:bold;">N</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/n.mp3');">
-                                        <figcaption style="font-weight:bold;">N</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-O-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/o.mp3');">
-                                        <figcaption style="font-weight:bold;">O</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/o.mp3');">
-                                        <figcaption style="font-weight:bold;">O</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-P-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/p.mp3');">
-                                        <figcaption style="font-weight:bold;">P</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/p.mp3');">
-                                        <figcaption style="font-weight:bold;">P</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-Q-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/q.mp3');">
-                                        <figcaption style="font-weight:bold;">Q</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/q.mp3');">
-                                        <figcaption style="font-weight:bold;">Q</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-R-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/r.mp3');">
-                                        <figcaption style="font-weight:bold;">R</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/r.mp3');">
-                                        <figcaption style="font-weight:bold;">R</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-S-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/s.mp3');">
-                                        <figcaption style="font-weight:bold;">S</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/s.mp3');">
-                                        <figcaption style="font-weight:bold;">S</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-T-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/t.mp3');">
-                                        <figcaption style="font-weight:bold;">T</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/t.mp3');">
-                                        <figcaption style="font-weight:bold;">T</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-U-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/u.mp3');">
-                                        <figcaption style="font-weight:bold;">U</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/u.mp3');">
-                                        <figcaption style="font-weight:bold;">U</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-V-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/v.mp3');">
-                                        <figcaption style="font-weight:bold;">V</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/v.mp3');">
-                                        <figcaption style="font-weight:bold;">V</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-W-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/w.mp3');">
-                                        <figcaption style="font-weight:bold;">W</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/w.mp3');">
-                                        <figcaption style="font-weight:bold;">W</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-X-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/x.mp3');">
-                                        <figcaption style="font-weight:bold;">X</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/x.mp3');">
-                                        <figcaption style="font-weight:bold;">X</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-Y-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/y.mp3');">
-                                        <figcaption style="font-weight:bold;">Y</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/y.mp3');">
-                                        <figcaption style="font-weight:bold;">Y</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/abjad/Letter-Z-icon.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/z.mp3');">
-                                        <figcaption style="font-weight:bold;">Z</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/z.mp3');">
-                                        <figcaption style="font-weight:bold;">Z</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-            </div>
-
-
-
-            <div class="swiper-container swiper-nav">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide active-nav">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-A-icon.png" alt="">
-                        <div class="title">A</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-B-icon.png" alt="">
-                        <div class="title">B</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-C-icon.png" alt="">
-                        <div class="title">C</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-D-icon.png" alt="">
-                        <div class="title">D</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-E-icon.png" alt="">
-                        <div class="title">E</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-F-icon.png" alt="">
-                        <div class="title">F</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-G-icon.png" alt="">
-                        <div class="title">G</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-H-icon.png" alt="">
-                        <div class="title">H</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-I-icon.png" alt="">
-                        <div class="title">I</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-J-icon.png" alt="">
-                        <div class="title">J</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-K-icon.png" alt="">
-                        <div class="title">K</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-L-icon.png" alt="">
-                        <div class="title">L</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-M-icon.png" alt="">
-                        <div class="title">M</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-N-icon.png" alt="">
-                        <div class="title">N</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-O-icon.png" alt="">
-                        <div class="title">O</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-P-icon.png" alt="">
-                        <div class="title">P</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-Q-icon.png" alt="">
-                        <div class="title">Q</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-R-icon.png" alt="">
-                        <div class="title">R</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-S-icon.png" alt="">
-                        <div class="title">S</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-T-icon.png" alt="">
-                        <div class="title">T</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-U-icon.png" alt="">
-                        <div class="title">U</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-V-icon.png" alt="">
-                        <div class="title">V</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-W-icon.png" alt="">
-                        <div class="title">W</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-X-icon.png" alt="">
-                        <div class="title">X</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-Y-icon.png" alt="">
-                        <div class="title">Y</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/abjad/Letter-Z-icon.png" alt="">
-                        <div class="title">Z</div>
-                    </div>
-
-
-
-
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script src="movies/js/jquery.min.js"></script>
-    <!-- Don't forget to get the latest Swiper and scrollbar version here-->
-    <script src="movies/js/idangerous.swiper-2.0.min.js"></script>
-    <script src="movies/js/movies-app.js"></script>
-
-</body>
-
-</html>
+		<style>
+			.ui-grid-a{
+			margin-top: 40px;
+			}
+		</style>
+	</head>
+  <body class="ui-mobile-viewport ui-overlay-a">
+  	<div data-role="page" data-theme="a" id="abjad" class="jqm-demos jqm-home">
+  		<div data-role="header" class="jqm-header">
+  			<div>
+  				<h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
+  				</h2>
+  				<h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
+  			</div>
+  			<a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
+  		</div>
+  		<div role="main" class="ui-content jqm-content" align="center">
+  			<div class="swiper-container swiper-content">
+  				<div class="swiper-wrapper">
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-A-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/a.mp3');">
+  										<figcaption style="font-weight:bold;">A</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/ein.mp3');">
+  										<figcaption style="font-weight:bold;">Ein</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-B-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/b.mp3');">
+  										<figcaption style="font-weight:bold;">B</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/b.mp3');">
+  										<figcaption style="font-weight:bold;">B</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-C-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/c.mp3');">
+  										<figcaption style="font-weight:bold;">C</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/c.mp3');">
+  										<figcaption style="font-weight:bold;">C</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-D-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/d.mp3');">
+  										<figcaption style="font-weight:bold;">D</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/d.mp3');">
+  										<figcaption style="font-weight:bold;">D</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-E-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/e.mp3');">
+  										<figcaption style="font-weight:bold;">E</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/e.mp3');">
+  										<figcaption style="font-weight:bold;">E</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-F-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/f.mp3');">
+  										<figcaption style="font-weight:bold;">F</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/f.mp3');">
+  										<figcaption style="font-weight:bold;">F</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-G-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/g.mp3');">
+  										<figcaption style="font-weight:bold;">G</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/g.mp3');">
+  										<figcaption style="font-weight:bold;">G</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-H-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/h.mp3');">
+  										<figcaption style="font-weight:bold;">H</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/h.mp3');">
+  										<figcaption style="font-weight:bold;">H</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-I-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/i.mp3);">
+  										<figcaption style="font-weight:bold;">I</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/ich.mp3');">
+  										<figcaption style="font-weight:bold;">Ich</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-J-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/j.mp3');">
+  										<figcaption style="font-weight:bold;">J</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/j.mp3');">
+  										<figcaption style="font-weight:bold;">J</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-K-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/k.mp3');">
+  										<figcaption style="font-weight:bold;">K</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/k.mp3');">
+  										<figcaption style="font-weight:bold;">K</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-L-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/l.mp3');">
+  										<figcaption style="font-weight:bold;">L</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/l.mp3');">
+  										<figcaption style="font-weight:bold;">L</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-M-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/m.mp3');">
+  										<figcaption style="font-weight:bold;">M</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/m.mp3');">
+  										<figcaption style="font-weight:bold;">M</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-N-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/n.mp3');">
+  										<figcaption style="font-weight:bold;">N</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/n.mp3');">
+  										<figcaption style="font-weight:bold;">N</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-O-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/o.mp3');">
+  										<figcaption style="font-weight:bold;">O</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/o.mp3');">
+  										<figcaption style="font-weight:bold;">O</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-P-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/p.mp3');">
+  										<figcaption style="font-weight:bold;">P</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/p.mp3');">
+  										<figcaption style="font-weight:bold;">P</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-Q-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/q.mp3');">
+  										<figcaption style="font-weight:bold;">Q</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/q.mp3');">
+  										<figcaption style="font-weight:bold;">Q</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-R-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/r.mp3');">
+  										<figcaption style="font-weight:bold;">R</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/r.mp3');">
+  										<figcaption style="font-weight:bold;">R</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-S-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/s.mp3');">
+  										<figcaption style="font-weight:bold;">S</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/s.mp3');">
+  										<figcaption style="font-weight:bold;">S</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-T-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/t.mp3');">
+  										<figcaption style="font-weight:bold;">T</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/t.mp3');">
+  										<figcaption style="font-weight:bold;">T</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-U-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/u.mp3');">
+  										<figcaption style="font-weight:bold;">U</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/u.mp3');">
+  										<figcaption style="font-weight:bold;">U</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-V-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/v.mp3');">
+  										<figcaption style="font-weight:bold;">V</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/v.mp3');">
+  										<figcaption style="font-weight:bold;">V</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-W-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/w.mp3');">
+  										<figcaption style="font-weight:bold;">W</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/w.mp3');">
+  										<figcaption style="font-weight:bold;">W</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-X-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/x.mp3');">
+  										<figcaption style="font-weight:bold;">X</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/x.mp3');">
+  										<figcaption style="font-weight:bold;">X</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-Y-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/y.mp3');">
+  										<figcaption style="font-weight:bold;">Y</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/y.mp3');">
+  										<figcaption style="font-weight:bold;">Y</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/abjad/Letter-Z-icon.png">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/1/z.mp3');">
+  										<figcaption style="font-weight:bold;">Z</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/abjad/2/z.mp3');">
+  										<figcaption style="font-weight:bold;">Z</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="swiper-container swiper-nav">
+  				<div class="swiper-wrapper">
+  					<div class="swiper-slide active-nav">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-A-icon.png" alt="">
+  						<div class="title">A</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-B-icon.png" alt="">
+  						<div class="title">B</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-C-icon.png" alt="">
+  						<div class="title">C</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-D-icon.png" alt="">
+  						<div class="title">D</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-E-icon.png" alt="">
+  						<div class="title">E</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-F-icon.png" alt="">
+  						<div class="title">F</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-G-icon.png" alt="">
+  						<div class="title">G</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-H-icon.png" alt="">
+  						<div class="title">H</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-I-icon.png" alt="">
+  						<div class="title">I</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-J-icon.png" alt="">
+  						<div class="title">J</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-K-icon.png" alt="">
+  						<div class="title">K</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-L-icon.png" alt="">
+  						<div class="title">L</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-M-icon.png" alt="">
+  						<div class="title">M</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-N-icon.png" alt="">
+  						<div class="title">N</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-O-icon.png" alt="">
+  						<div class="title">O</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-P-icon.png" alt="">
+  						<div class="title">P</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-Q-icon.png" alt="">
+  						<div class="title">Q</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-R-icon.png" alt="">
+  						<div class="title">R</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-S-icon.png" alt="">
+  						<div class="title">S</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-T-icon.png" alt="">
+  						<div class="title">T</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-U-icon.png" alt="">
+  						<div class="title">U</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-V-icon.png" alt="">
+  						<div class="title">V</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-W-icon.png" alt="">
+  						<div class="title">W</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-X-icon.png" alt="">
+  						<div class="title">X</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-Y-icon.png" alt="">
+  						<div class="title">Y</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/abjad/Letter-Z-icon.png" alt="">
+  						<div class="title">Z</div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  	<script src="movies/js/jquery.min.js"></script>
+  	<!-- Don't forget to get the latest Swiper and scrollbar version here-->
+  	<script src="movies/js/idangerous.swiper-2.0.min.js"></script>
+  	<script src="movies/js/movies-app.js"></script>
+  </body>
+  </html>

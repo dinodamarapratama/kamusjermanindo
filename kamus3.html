@@ -1,526 +1,411 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kamus</title>
-    <meta name="author" content="Dino" />
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="css/one.min.css"> -->
-    <script src="js/jquery.mobile-1.4.2.min.js"></script>
-    <!-- <link rel="stylesheet" href="css/jqm-demos.css"> -->
-    <link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
-
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-
-
-    <link rel="stylesheet" href="movies/css/idangerous.swiper.css">
-
-    <link rel="stylesheet" href="movies/css/movies-app.css">
-
-    <script type="text/javascript" charset="utf-8">
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-
-        function onDeviceReady() {
-
-        }
-
-        // Wait for Cordova to load
-        //
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-        // Cordova is ready
-        //
-        function onDeviceReady() {
-
-        }
-
-        // Audio player
-        //
-        var my_media = null;
-        var mediaTimer = null;
-
-
-        // Play audio
-        //
-        function playAudio(src) {
-            // Create Media object from src
-            my_media = new Media(src, onSuccess, onError);
-
-            // Play audio
-            my_media.play();
-
-            // Update my_media position every second
-            if (mediaTimer == null) {
-                mediaTimer = setInterval(function() {
-                    // get my_media position
-                    my_media.getCurrentPosition(
-                        // success callback
-                        function(position) {
-                            if (position > -1) {
-                                setAudioPosition((position) + " sec");
-                            }
-                        },
-                        // error callback
-                        function(e) {
-                            console.log("Error getting pos=" + e);
-                            setAudioPosition("Error: " + e);
-                        }
-                    );
-                }, 1000);
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Kamus</title>
+		<meta name="author" content="Dino" />
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/jquery.mobile-1.4.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>
+		<script type="text/javascript" src="phonegap.js"></script>
+		<link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" href="movies/css/idangerous.swiper.css">
+		<link rel="stylesheet" href="movies/css/movies-app.css">
+		<script type="text/javascript" charset="utf-8">
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function playAudio(src) {
+        var options = {
+            bgColor: "#FFFFFF",
+            bgImage: "",
+            bgImageScale: "fit",
+            initFullscreen: false,
+            successCallback: function() {
+                console.log("Player closed without error.");
+            },
+            errorCallback: function(errMsg) {
+                console.log("Error! " + errMsg);
             }
+        };
+        window.plugins.streamingMedia.playAudio(src, options);
+    }
+
+
+    function doClose() {
+        navigator.notification.confirm(
+            'Keluar dari Aplikasi?',
+            exitApp,
+            'Kamus Jerman Indo',
+            'Ok,Cancel'
+        );
+    }
+
+    function exitApp(buttonIndex) {
+        if (buttonIndex == 1) {
+            navigator.app.exitApp();
+        } else {
+            window.close();
         }
-
-        // Pause audio
-        //
-        function pauseAudio() {
-            if (my_media) {
-                my_media.pause();
-            }
-        }
-
-        // Stop audio
-        //
-        function stopAudio() {
-            if (my_media) {
-                my_media.stop();
-            }
-            clearInterval(mediaTimer);
-            mediaTimer = null;
-        }
-
-        // onSuccess Callback
-        //
-        function onSuccess() {
-            console.log("playAudio():Audio Success");
-        }
-
-        // onError Callback
-        //
-        function onError(error) {
-            alert('code: ' + error.code + '\n' +
-                'message: ' + error.message + '\n');
-        }
-
-        // Set audio position
-        //
-        function setAudioPosition(position) {
-            document.getElementById('audio_position').innerHTML = position;
-        }
-
-
-
-
-        function doClose() {
-            navigator.notification.confirm(
-                'Keluar dari Aplikasi?',
-                exitApp,
-                'Kamus Jerman Indo',
-                'Ok,Cancel'
-            );
-        }
-
-        function exitApp(buttonIndex) {
-            if (buttonIndex == 1) {
-                navigator.app.exitApp();
-            } else {
-                window.close();
-            }
-        }
+    }
     </script>
-    <style>
-        .ui-grid-a {
-            margin-top: 40px;
-        }
-    </style>
-
-</head>
-
-<body class="ui-mobile-viewport ui-overlay-a">
-    <div data-role="page" data-theme="a" id="buah" class="jqm-demos jqm-home">
-        <div data-role="header" class="jqm-header">
-            <div>
-                <h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
-
-                </h2>
-
-                <h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
-            </div>
-            <a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
-        </div>
-
-
-        <div role="main" class="ui-content jqm-content" align="center">
-            <div class="swiper-container swiper-content">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture1.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/alpukat.mp3');">
-                                        <figcaption style="font-weight:bold;">Alpukat</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/avocado.mp3');">
-                                        <figcaption style="font-weight:bold;">Avocado</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture2.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/anggur.mp3');">
-                                        <figcaption style="font-weight:bold;">Anggur</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/trauben.mp3');">
-                                        <figcaption style="font-weight:bold;">Trauben</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture3.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/apel.mp3');">
-                                        <figcaption style="font-weight:bold;">Apel</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/apfel.mp3');">
-                                        <figcaption style="font-weight:bold;">Apfel</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture4.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/belimbing.mp3');">
-                                        <figcaption style="font-weight:bold;">Belimbing</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/strenfruncht.mp3');">
-                                        <figcaption style="font-weight:bold;">Strenfruncht</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture5.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/durian.mp3');">
-                                        <figcaption style="font-weight:bold;">Durian</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/durianfruncht.mp3');">
-                                        <figcaption style="font-weight:bold;">Durianfruncht</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture6.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/mangga.mp3');">
-                                        <figcaption style="font-weight:bold;">Mangga</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/mango.mp3');">
-                                        <figcaption style="font-weight:bold;">Mango</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture7.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/pisang.mp3');">
-                                        <figcaption style="font-weight:bold;">Pisang</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/bananen.mp3');">
-                                        <figcaption style="font-weight:bold;">Banananen</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture8.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/stroberi.mp3');">
-                                        <figcaption style="font-weight:bold;">Stroberi</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/erdbeeren.mp3');">
-                                        <figcaption style="font-weight:bold;">Erdbeeren</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture9.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/tomat.mp3');">
-                                        <figcaption style="font-weight:bold;">Tomat</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/tomaten.mp3');">
-                                        <figcaption style="font-weight:bold;">Tomaten</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture10.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/pepaya.mp3');">
-                                        <figcaption style="font-weight:bold;">Pepaya</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/papaya.mp3');">
-                                        <figcaption style="font-weight:bold;">Papaya</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture11.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/jambu.mp3');">
-                                        <figcaption style="font-weight:bold;">Jambu</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/guave.mp3');">
-                                        <figcaption style="font-weight:bold;">Guave</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/buah/Picture12.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/lemon.mp3');">
-                                        <figcaption style="font-weight:bold;">Lemon</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/zitrone.mp3');">
-                                        <figcaption style="font-weight:bold;">Zitrone</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-            <div class="swiper-container swiper-nav">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide active-nav">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture1.jpg" alt="">
-                        <div class="title">Buah 1</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture2.jpg" alt="">
-                        <div class="title">Buah 2</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture3.jpg" alt="">
-                        <div class="title">Buah 3</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture4.jpg" alt="">
-                        <div class="title">Buah 4</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture5.jpg" alt="">
-                        <div class="title">Buah 5</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture6.jpg" alt="">
-                        <div class="title">Buah 6</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture7.jpg" alt="">
-                        <div class="title">Buah 7</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture8.jpg" alt="">
-                        <div class="title">Buah 8</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture9.jpg" alt="">
-                        <div class="title">Buah 9</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture10.jpg" alt="">
-                        <div class="title">Buah 10</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture11.jpg" alt="">
-                        <div class="title">Buah 11</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/buah/Picture12.jpg" alt="">
-                        <div class="title">Buah 12</div>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script src="movies/js/jquery.min.js"></script>
-    <!-- Don't forget to get the latest Swiper and scrollbar version here-->
-    <script src="movies/js/idangerous.swiper-2.0.min.js"></script>
-    <script src="movies/js/movies-app.js"></script>
-
-</body>
-
-</html>
+		<style>
+			.ui-grid-a{
+			margin-top: 40px;
+			}
+		</style>
+	</head>
+  <body class="ui-mobile-viewport ui-overlay-a">
+  	<div data-role="page" data-theme="a" id="buah" class="jqm-demos jqm-home">
+  		<div data-role="header" class="jqm-header">
+  			<div>
+  				<h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
+  				</h2>
+  				<h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
+  			</div>
+  			<a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
+  		</div>
+  		<div role="main" class="ui-content jqm-content" align="center">
+  			<div class="swiper-container swiper-content">
+  				<div class="swiper-wrapper">
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture1.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/alpukat.mp3');">
+  										<figcaption style="font-weight:bold;">Alpukat</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/avocado.mp3');">
+  										<figcaption style="font-weight:bold;">Avocado</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture2.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/anggur.mp3');">
+  										<figcaption style="font-weight:bold;">Anggur</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/trauben.mp3');">
+  										<figcaption style="font-weight:bold;">Trauben</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture3.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/apel.mp3');">
+  										<figcaption style="font-weight:bold;">Apel</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/apfel.mp3');">
+  										<figcaption style="font-weight:bold;">Apfel</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture4.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/belimbing.mp3');">
+  										<figcaption style="font-weight:bold;">Belimbing</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/strenfruncht.mp3');">
+  										<figcaption style="font-weight:bold;">Strenfruncht</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture5.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/durian.mp3');">
+  										<figcaption style="font-weight:bold;">Durian</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/durianfruncht.mp3');">
+  										<figcaption style="font-weight:bold;">Durianfruncht</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture6.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/mangga.mp3');">
+  										<figcaption style="font-weight:bold;">Mangga</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/mango.mp3');">
+  										<figcaption style="font-weight:bold;">Mango</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture7.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/pisang.mp3');">
+  										<figcaption style="font-weight:bold;">Pisang</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/bananen.mp3');">
+  										<figcaption style="font-weight:bold;">Banananen</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture8.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/stroberi.mp3');">
+  										<figcaption style="font-weight:bold;">Stroberi</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/erdbeeren.mp3');">
+  										<figcaption style="font-weight:bold;">Erdbeeren</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture9.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/tomat.mp3');">
+  										<figcaption style="font-weight:bold;">Tomat</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/tomaten.mp3');">
+  										<figcaption style="font-weight:bold;">Tomaten</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture10.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/pepaya.mp3');">
+  										<figcaption style="font-weight:bold;">Pepaya</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/papaya.mp3');">
+  										<figcaption style="font-weight:bold;">Papaya</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture11.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/jambu.mp3');">
+  										<figcaption style="font-weight:bold;">Jambu</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/guave.mp3');">
+  										<figcaption style="font-weight:bold;">Guave</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/buah/Picture12.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/buah/1/lemon.mp3');">
+  										<figcaption style="font-weight:bold;">Lemon</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/buah/2/zitrone.mp3');">
+  										<figcaption style="font-weight:bold;">Zitrone</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="swiper-container swiper-nav">
+  				<div class="swiper-wrapper">
+  					<div class="swiper-slide active-nav">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture1.jpg" alt="">
+  						<div class="title">Buah 1</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture2.jpg" alt="">
+  						<div class="title">Buah 2</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture3.jpg" alt="">
+  						<div class="title">Buah 3</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture4.jpg" alt="">
+  						<div class="title">Buah 4</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture5.jpg" alt="">
+  						<div class="title">Buah 5</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture6.jpg" alt="">
+  						<div class="title">Buah 6</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture7.jpg" alt="">
+  						<div class="title">Buah 7</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture8.jpg" alt="">
+  						<div class="title">Buah 8</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture9.jpg" alt="">
+  						<div class="title">Buah 9</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture10.jpg" alt="">
+  						<div class="title">Buah 10</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture11.jpg" alt="">
+  						<div class="title">Buah 11</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/buah/Picture12.jpg" alt="">
+  						<div class="title">Buah 12</div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  	<script src="movies/js/jquery.min.js"></script>
+  	<!-- Don't forget to get the latest Swiper and scrollbar version here-->
+  	<script src="movies/js/idangerous.swiper-2.0.min.js"></script>
+  	<script src="movies/js/movies-app.js"></script>
+  </body>
+  </html>

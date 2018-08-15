@@ -1,527 +1,411 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kamus</title>
-    <meta name="author" content="Dino" />
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="css/one.min.css"> -->
-    <script src="js/jquery.mobile-1.4.2.min.js"></script>
-    <!-- <link rel="stylesheet" href="css/jqm-demos.css"> -->
-    <link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
-
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-
-
-    <link rel="stylesheet" href="movies/css/idangerous.swiper.css">
-
-    <link rel="stylesheet" href="movies/css/movies-app.css">
-
-    <script type="text/javascript" charset="utf-8">
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-
-        function onDeviceReady() {
-
-        }
-
-        // Wait for Cordova to load
-        //
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-        // Cordova is ready
-        //
-        function onDeviceReady() {
-
-        }
-
-        // Audio player
-        //
-        var my_media = null;
-        var mediaTimer = null;
-
-
-        // Play audio
-        //
-        function playAudio(src) {
-            // Create Media object from src
-            my_media = new Media(src, onSuccess, onError);
-
-            // Play audio
-            my_media.play();
-
-            // Update my_media position every second
-            if (mediaTimer == null) {
-                mediaTimer = setInterval(function() {
-                    // get my_media position
-                    my_media.getCurrentPosition(
-                        // success callback
-                        function(position) {
-                            if (position > -1) {
-                                setAudioPosition((position) + " sec");
-                            }
-                        },
-                        // error callback
-                        function(e) {
-                            console.log("Error getting pos=" + e);
-                            setAudioPosition("Error: " + e);
-                        }
-                    );
-                }, 1000);
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Kamus</title>
+		<meta name="author" content="Dino" />
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/jquery.mobile-1.4.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>
+		<script type="text/javascript" src="phonegap.js"></script>
+		<link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" href="movies/css/idangerous.swiper.css">
+		<link rel="stylesheet" href="movies/css/movies-app.css">
+		<script type="text/javascript" charset="utf-8">
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function playAudio(src) {
+        var options = {
+            bgColor: "#FFFFFF",
+            bgImage: "",
+            bgImageScale: "fit",
+            initFullscreen: false,
+            successCallback: function() {
+                console.log("Player closed without error.");
+            },
+            errorCallback: function(errMsg) {
+                console.log("Error! " + errMsg);
             }
+        };
+        window.plugins.streamingMedia.playAudio(src, options);
+    }
+
+
+    function doClose() {
+        navigator.notification.confirm(
+            'Keluar dari Aplikasi?',
+            exitApp,
+            'Kamus Jerman Indo',
+            'Ok,Cancel'
+        );
+    }
+
+    function exitApp(buttonIndex) {
+        if (buttonIndex == 1) {
+            navigator.app.exitApp();
+        } else {
+            window.close();
         }
-
-        // Pause audio
-        //
-        function pauseAudio() {
-            if (my_media) {
-                my_media.pause();
-            }
-        }
-
-        // Stop audio
-        //
-        function stopAudio() {
-            if (my_media) {
-                my_media.stop();
-            }
-            clearInterval(mediaTimer);
-            mediaTimer = null;
-        }
-
-        // onSuccess Callback
-        //
-        function onSuccess() {
-            console.log("playAudio():Audio Success");
-        }
-
-        // onError Callback
-        //
-        function onError(error) {
-            alert('code: ' + error.code + '\n' +
-                'message: ' + error.message + '\n');
-        }
-
-        // Set audio position
-        //
-        function setAudioPosition(position) {
-            document.getElementById('audio_position').innerHTML = position;
-        }
-
-
-
-
-        function doClose() {
-            navigator.notification.confirm(
-                'Keluar dari Aplikasi?',
-                exitApp,
-                'Kamus Jerman Indo',
-                'Ok,Cancel'
-            );
-        }
-
-        function exitApp(buttonIndex) {
-            if (buttonIndex == 1) {
-                navigator.app.exitApp();
-            } else {
-                window.close();
-            }
-        }
+    }
     </script>
-
-    <style>
-        .ui-grid-a {
-            margin-top: 40px;
-        }
-    </style>
-
-</head>
-
-<body class="ui-mobile-viewport ui-overlay-a">
-    <div data-role="page" data-theme="a" id="binatang" class="jqm-demos jqm-home">
-        <div data-role="header" class="jqm-header">
-            <div>
-                <h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
-
-                </h2>
-
-                <h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
-            </div>
-            <a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
-        </div>
-
-
-        <div role="main" class="ui-content jqm-content" align="center">
-            <div class="swiper-container swiper-content">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture1.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/ayam.mp3');">
-                                        <figcaption style="font-weight:bold;">Ayam</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/huhn.mp3');">
-                                        <figcaption style="font-weight:bold;">Hunn</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture2.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/bebek.mp3');">
-                                        <figcaption style="font-weight:bold;">Bebek</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/ente.mp3');">
-                                        <figcaption style="font-weight:bold;">Ente</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture3.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/burung.mp3');">
-                                        <figcaption style="font-weight:bold;">Burung</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/vogel.mp3');">
-                                        <figcaption style="font-weight:bold;">Vogel</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture4.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/gajah.mp3');">
-                                        <figcaption style="font-weight:bold;">Gajah</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/elefant.mp3');">
-                                        <figcaption style="font-weight:bold;">Elefant</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture5.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/harimau.mp3');">
-                                        <figcaption style="font-weight:bold;">Harimau</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/tiger.mp3');">
-                                        <figcaption style="font-weight:bold;">Tiger</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture6.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/ikan.mp3');">
-                                        <figcaption style="font-weight:bold;">Ikan</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/fisch.mp3');">
-                                        <figcaption style="font-weight:bold;">Fisch</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture7.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/jerapah.mp3');">
-                                        <figcaption style="font-weight:bold;">Jerapah</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/giraffe.mp3');">
-                                        <figcaption style="font-weight:bold;">Giraffe</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture8.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/kelinci.mp3');">
-                                        <figcaption style="font-weight:bold;">Kelinci</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/kaninchen.mp3');">
-                                        <figcaption style="font-weight:bold;">Kaninchen</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture9.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/kucing.mp3');">
-                                        <figcaption style="font-weight:bold;">Kucing</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/katze.mp3');">
-                                        <figcaption style="font-weight:bold;">Katze</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture10.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/kuda.mp3');">
-                                        <figcaption style="font-weight:bold;">Kuda</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/pferd.mp3');">
-                                        <figcaption style="font-weight:bold;">Pferd</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture11.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/sapi.mp3');">
-                                        <figcaption style="font-weight:bold;">Sapi</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/kuh.mp3');">
-                                        <figcaption style="font-weight:bold;">Kuh</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/icon/binatang/Picture12.jpg">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/serigala.mp3');">
-                                        <figcaption style="font-weight:bold;">Serigala</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/wolf.mp3');">
-                                        <figcaption style="font-weight:bold;">Wolf</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-
-            <div class="swiper-container swiper-nav">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide active-nav">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture1.jpg" alt="">
-                        <div class="title">Binatang 1</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture2.jpg" alt="">
-                        <div class="title">Binatang 2</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture3.jpg" alt="">
-                        <div class="title">Binatang 3</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture4.jpg" alt="">
-                        <div class="title">Binatang 4</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture5.jpg" alt="">
-                        <div class="title">Binatang 5</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture6.jpg" alt="">
-                        <div class="title">Binatang 6</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture7.jpg" alt="">
-                        <div class="title">Binatang 7</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture8.jpg" alt="">
-                        <div class="title">Binatang 8</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture9.jpg" alt="">
-                        <div class="title">Binatang 9</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture10.jpg" alt="">
-                        <div class="title">Binatang 10</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture11.jpg" alt="">
-                        <div class="title">Binatang 11</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/icon/binatang/Picture12.jpg" alt="">
-                        <div class="title">Binatang 12</div>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script src="movies/js/jquery.min.js"></script>
-    <!-- Don't forget to get the latest Swiper and scrollbar version here-->
-    <script src="movies/js/idangerous.swiper-2.0.min.js"></script>
-    <script src="movies/js/movies-app.js"></script>
-
-</body>
-
-</html>
+		<style>
+			.ui-grid-a{
+			margin-top: 40px;
+			}
+		</style>
+	</head>
+  <body class="ui-mobile-viewport ui-overlay-a">
+  	<div data-role="page" data-theme="a" id="binatang" class="jqm-demos jqm-home">
+  		<div data-role="header" class="jqm-header">
+  			<div>
+  				<h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
+  				</h2>
+  				<h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
+  			</div>
+  			<a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
+  		</div>
+  		<div role="main" class="ui-content jqm-content" align="center">
+  			<div class="swiper-container swiper-content">
+  				<div class="swiper-wrapper">
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture1.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/ayam.mp3');">
+  										<figcaption style="font-weight:bold;">Ayam</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/huhn.mp3');">
+  										<figcaption style="font-weight:bold;">Hunn</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture2.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/bebek.mp3');">
+  										<figcaption style="font-weight:bold;">Bebek</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/ente.mp3');">
+  										<figcaption style="font-weight:bold;">Ente</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture3.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/burung.mp3');">
+  										<figcaption style="font-weight:bold;">Burung</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/vogel.mp3');">
+  										<figcaption style="font-weight:bold;">Vogel</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture4.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/gajah.mp3');">
+  										<figcaption style="font-weight:bold;">Gajah</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/elefant.mp3');">
+  										<figcaption style="font-weight:bold;">Elefant</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture5.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/harimau.mp3');">
+  										<figcaption style="font-weight:bold;">Harimau</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/tiger.mp3');">
+  										<figcaption style="font-weight:bold;">Tiger</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture6.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/ikan.mp3');">
+  										<figcaption style="font-weight:bold;">Ikan</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/fisch.mp3');">
+  										<figcaption style="font-weight:bold;">Fisch</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture7.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/jerapah.mp3');">
+  										<figcaption style="font-weight:bold;">Jerapah</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/giraffe.mp3');">
+  										<figcaption style="font-weight:bold;">Giraffe</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture8.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/kelinci.mp3');">
+  										<figcaption style="font-weight:bold;">Kelinci</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/kaninchen.mp3');">
+  										<figcaption style="font-weight:bold;">Kaninchen</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture9.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/kucing.mp3');">
+  										<figcaption style="font-weight:bold;">Kucing</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/katze.mp3');">
+  										<figcaption style="font-weight:bold;">Katze</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture10.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/kuda.mp3');">
+  										<figcaption style="font-weight:bold;">Kuda</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/pferd.mp3');">
+  										<figcaption style="font-weight:bold;">Pferd</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture11.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/sapi.mp3');">
+  										<figcaption style="font-weight:bold;">Sapi</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/kuh.mp3');">
+  										<figcaption style="font-weight:bold;">Kuh</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<div class="inner">
+  							<figure>
+  								<img class="movie-pics1" src="images/icon/binatang/Picture12.jpg">
+  							</figure>
+  							<div class="ui-grid-a">
+  								<div class="ui-block-a">
+  									<figure>
+  										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/1/serigala.mp3');">
+  										<figcaption style="font-weight:bold;">Serigala</figcaption>
+  									</figure>
+  								</div>
+  								<div class="ui-block-b">
+  									<figure>
+  										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/binatang/2/wolf.mp3');">
+  										<figcaption style="font-weight:bold;">Wolf</figcaption>
+  									</figure>
+  								</div>
+  							</div>
+  							<div class="clearfix"></div>
+  						</div>
+  					</div>
+  				</div>
+  			</div>
+  			<div class="swiper-container swiper-nav">
+  				<div class="swiper-wrapper">
+  					<div class="swiper-slide active-nav">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture1.jpg" alt="">
+  						<div class="title">Binatang 1</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture2.jpg" alt="">
+  						<div class="title">Binatang 2</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture3.jpg" alt="">
+  						<div class="title">Binatang 3</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture4.jpg" alt="">
+  						<div class="title">Binatang 4</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture5.jpg" alt="">
+  						<div class="title">Binatang 5</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture6.jpg" alt="">
+  						<div class="title">Binatang 6</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture7.jpg" alt="">
+  						<div class="title">Binatang 7</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture8.jpg" alt="">
+  						<div class="title">Binatang 8</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture9.jpg" alt="">
+  						<div class="title">Binatang 9</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture10.jpg" alt="">
+  						<div class="title">Binatang 10</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture11.jpg" alt="">
+  						<div class="title">Binatang 11</div>
+  					</div>
+  					<div class="swiper-slide">
+  						<span class="angle"></span>
+  						<img src="images/icon/binatang/Picture12.jpg" alt="">
+  						<div class="title">Binatang 12</div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  	<script src="movies/js/jquery.min.js"></script>
+  	<!-- Don't forget to get the latest Swiper and scrollbar version here-->
+  	<script src="movies/js/idangerous.swiper-2.0.min.js"></script>
+  	<script src="movies/js/movies-app.js"></script>
+  </body>
+  </html>
