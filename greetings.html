@@ -1,753 +1,654 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kamus</title>
-    <meta name="author" content="Dino" />
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="css/one.min.css"> -->
-    <script src="js/jquery.mobile-1.4.2.min.js"></script>
-    <!-- <link rel="stylesheet" href="css/jqm-demos.css"> -->
-    <link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
-
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-
-
-    <link rel="stylesheet" href="movies/css/idangerous.swiper.css">
-
-    <link rel="stylesheet" href="movies/css/movies-app.css">
-
-    <script type="text/javascript" charset="utf-8">
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-
-        function onDeviceReady() {
-
-        }
-
-        // Wait for Cordova to load
-        //
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-        // Cordova is ready
-        //
-        function onDeviceReady() {
-
-        }
-
-        // Audio player
-        //
-        var my_media = null;
-        var mediaTimer = null;
-
-
-        // Play audio
-        //
-        function playAudio(src) {
-            // Create Media object from src
-            my_media = new Media(src, onSuccess, onError);
-
-            // Play audio
-            my_media.play();
-
-            // Update my_media position every second
-            if (mediaTimer == null) {
-                mediaTimer = setInterval(function() {
-                    // get my_media position
-                    my_media.getCurrentPosition(
-                        // success callback
-                        function(position) {
-                            if (position > -1) {
-                                setAudioPosition((position) + " sec");
-                            }
-                        },
-                        // error callback
-                        function(e) {
-                            console.log("Error getting pos=" + e);
-                            setAudioPosition("Error: " + e);
-                        }
-                    );
-                }, 1000);
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Kamus</title>
+		<meta name="author" content="Dino" />
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/jquery.mobile-1.4.2.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+		<script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>
+		<script type="text/javascript" src="phonegap.js"></script>
+		<link media="screen" rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" href="movies/css/idangerous.swiper.css">
+		<link rel="stylesheet" href="movies/css/movies-app.css">
+		<script type="text/javascript" charset="utf-8">
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function playAudio(src) {
+        var options = {
+            bgColor: "#FFFFFF",
+            bgImage: "",
+            bgImageScale: "fit",
+            initFullscreen: false,
+            successCallback: function() {
+                console.log("Player closed without error.");
+            },
+            errorCallback: function(errMsg) {
+                console.log("Error! " + errMsg);
             }
+        };
+        window.plugins.streamingMedia.playAudio(src, options);
+    }
+
+
+    function doClose() {
+        navigator.notification.confirm(
+            'Keluar dari Aplikasi?',
+            exitApp,
+            'Kamus Jerman Indo',
+            'Ok,Cancel'
+        );
+    }
+
+    function exitApp(buttonIndex) {
+        if (buttonIndex == 1) {
+            navigator.app.exitApp();
+        } else {
+            window.close();
         }
-
-        // Pause audio
-        //
-        function pauseAudio() {
-            if (my_media) {
-                my_media.pause();
-            }
-        }
-
-        // Stop audio
-        //
-        function stopAudio() {
-            if (my_media) {
-                my_media.stop();
-            }
-            clearInterval(mediaTimer);
-            mediaTimer = null;
-        }
-
-        // onSuccess Callback
-        //
-        function onSuccess() {
-            console.log("playAudio():Audio Success");
-        }
-
-        // onError Callback
-        //
-        function onError(error) {
-            alert('code: ' + error.code + '\n' +
-                'message: ' + error.message + '\n');
-        }
-
-        // Set audio position
-        //
-        function setAudioPosition(position) {
-            document.getElementById('audio_position').innerHTML = position;
-        }
-
-
-
-
-        function doClose() {
-            navigator.notification.confirm(
-                'Keluar dari Aplikasi?',
-                exitApp,
-                'Kamus Jerman Indo',
-                'Ok,Cancel'
-            );
-        }
-
-        function exitApp(buttonIndex) {
-            if (buttonIndex == 1) {
-                navigator.app.exitApp();
-            } else {
-                window.close();
-            }
-        }
+    }
     </script>
-
-    <style>
-        .ui-grid-a {
-            margin-top: 40px;
-        }
-    </style>
-
-</head>
-
+		<style>
+			.ui-grid-a{
+			margin-top: 40px;
+			}
+		</style>
+	</head>
 <body class="ui-mobile-viewport ui-overlay-a">
-    <div data-role="page" data-theme="a" id="Sapaan" class="jqm-demos jqm-home">
-        <div data-role="header" class="jqm-header">
-            <div>
-                <h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
-
-                </h2>
-
-                <h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
-            </div>
-            <a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
-        </div>
-
-
-        <div role="main" class="ui-content jqm-content" align="center">
-            <div class="swiper-container swiper-content">
-                <div class="swiper-wrapper">
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Selamat_pagi.mp3');">
-                                        <figcaption style="font-weight:bold;">Selamat Pagi </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Guten_Morgen.mp3');">
-                                        <figcaption style="font-weight:bold;">Guten Morgen</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Selamat_Sore.mp3');">
-                                        <figcaption style="font-weight:bold;">Selamat Sore </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Guten_Abend.mp3');">
-                                        <figcaption style="font-weight:bold;">Guten Abend</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Selamat_malam.mp3');">
-                                        <figcaption style="font-weight:bold;">Selamat Malam  </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Gute_Nacht.mp3');">
-                                        <figcaption style="font-weight:bold;">Gute Nacht</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Sampai_Jumpa.mp3');">
-                                        <figcaption style="font-weight:bold;">Sampai Jumpa </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Auf_Wiedersehen.mp3');">
-                                        <figcaption style="font-weight:bold;">Auf Wiedersehen</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Terima_kasih.mp3');">
-                                        <figcaption style="font-weight:bold;">Terima kasih </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Danke.mp3');">
-                                        <figcaption style="font-weight:bold;">Danke</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Maaf.mp3');">
-                                        <figcaption style="font-weight:bold;">Maaf  </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Es_Tut_mir_leid.mp3');">
-                                        <figcaption style="font-weight:bold;">Es Tut mir leid</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ya_!.mp3');">
-                                        <figcaption style="font-weight:bold;">Ya ! </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ja.mp3');">
-                                        <figcaption style="font-weight:bold;">Ja</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/Tidak.mp3');">
-                                        <figcaption style="font-weight:bold;">Tidak </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Nein.mp3');">
-                                        <figcaption style="font-weight:bold;">Nein</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Mungkin-bisa_jadi.mp3');">
-                                        <figcaption style="font-weight:bold;">Mungkin/bisa jadi </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/vielleicht.mp3');">
-                                        <figcaption style="font-weight:bold;">Vielleicht</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Kembali!.mp3');">
-                                        <figcaption style="font-weight:bold;">Kembali! </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Bitte.mp3');">
-                                        <figcaption style="font-weight:bold;">Bitte</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Nama_Saya.....mp3');">
-                                        <figcaption style="font-weight:bold;">Nama Saya.... </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ich_Heise.mp3');">
-                                        <figcaption style="font-weight:bold;">Ich Heise</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Umur_Saya.....mp3');">
-                                        <figcaption style="font-weight:bold;">Umur Saya.... </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ich_bin.mp3');">
-                                        <figcaption style="font-weight:bold;">Ich bin</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Saya_Tidak_Mengerti.mp3');">
-                                        <figcaption style="font-weight:bold;">Saya Tidak Mengerti</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/Das_verstehe_ich_nicht.mp3');">
-                                        <figcaption style="font-weight:bold;">Das verstehe ich nicht</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Tolong_tuliskan.mp3');">
-                                        <figcaption style="font-weight:bold;">Tolong tuliskan </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Bitte_schreiben_sie_das_auf.mp3');">
-                                        <figcaption style="font-weight:bold;">Bitte schreiben sie das auf</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Tolong_Ulang.mp3');">
-                                        <figcaption style="font-weight:bold;">Tolong Ulang </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Bitte_wiederholen_sie_das.mp3');">
-                                        <figcaption style="font-weight:bold;">Bitte wiederholen sie das</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Tolong_Tunggu_sebenta.mp3');">
-                                        <figcaption style="font-weight:bold;">Tolong Tunggu sebentar </figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Einen_Moment_bitte.mp3');">
-                                        <figcaption style="font-weight:bold;">Einen Moment bitte</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Dah-mari-yuk.mp3');">
-                                        <figcaption style="font-weight:bold;">Dah/mari/yuk</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Tschusss.mp3');">
-                                        <figcaption style="font-weight:bold;">Tschusss</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Kami_punya.mp3');">
-                                        <figcaption style="font-weight:bold;">Kami punya</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Wir_haben.mp3');">
-                                        <figcaption style="font-weight:bold;">Wir haben</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Kami_Tidak_punya.mp3');">
-                                        <figcaption style="font-weight:bold;">Kami Tidak punya</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Wir_haben_kein.mp3');">
-                                        <figcaption style="font-weight:bold;">Wir haben kein</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Saya_punya.mp3');">
-                                        <figcaption style="font-weight:bold;">Saya punya</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ich_Habe.mp3');">
-                                        <figcaption style="font-weight:bold;">Ich Habe</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="inner">
-                            <figure>
-                                <img class="movie-pics1" src="images/201277-200.png">
-                            </figure>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Saya_Tidak_Punya.mp3');">
-                                        <figcaption style="font-weight:bold;">Saya Tidak Punya</figcaption>
-                                    </figure>
-                                </div>
-                                <div class="ui-block-b">
-                                    <figure>
-                                        <img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ich_Habe_kein.mp3');">
-                                        <figcaption style="font-weight:bold;">Ich Habe kein</figcaption>
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="swiper-container swiper-nav">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide active-nav">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 1</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 2</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 3</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 4</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 5</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 6</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 7</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 8</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 9</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 10</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 11</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 12</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 13</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 14</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 15</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 16</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 17</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 18</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 19</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 20</div>
-                    </div>
-                    <div class="swiper-slide">
-                        <span class="angle"></span>
-                        <img src="images/speech_balloon.png" alt="">
-                        <div class="title">Sapaan 21</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
-    <script src="movies/js/jquery.min.js"></script>
-    <!-- Don't forget to get the latest Swiper and scrollbar version here-->
-    <script src="movies/js/idangerous.swiper-2.0.min.js"></script>
-    <script src="movies/js/movies-app.js"></script>
-
+	<div data-role="page" data-theme="a" id="Sapaan" class="jqm-demos jqm-home">
+		<div data-role="header" class="jqm-header">
+			<div>
+				<h2 style="white-space: normal;" aria-level="1" role="heading" class="ui-title"><img width="40px" src="images/icon.png">
+				</h2>
+				<h2 aria-level="1" style="white-space: normal;" role="heading" class="ui-title">Kamus</h2>
+			</div>
+			<a href="index.html" data-ajax="false" data-icon="home" data-prefetch class="ui-btn-active ui-state-persist" data-iconpos="notext"></a>
+		</div>
+		<div role="main" class="ui-content jqm-content" align="center">
+			<div class="swiper-container swiper-content">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Selamat_pagi.mp3');">
+										<figcaption style="font-weight:bold;">Selamat Pagi </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Guten_Morgen.mp3');">
+										<figcaption style="font-weight:bold;">Guten Morgen</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Selamat_Sore.mp3');">
+										<figcaption style="font-weight:bold;">Selamat Sore </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Guten_Abend.mp3');">
+										<figcaption style="font-weight:bold;">Guten Abend</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Selamat_malam.mp3');">
+										<figcaption style="font-weight:bold;">Selamat Malam  </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Gute_Nacht.mp3');">
+										<figcaption style="font-weight:bold;">Gute Nacht</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Sampai_Jumpa.mp3');">
+										<figcaption style="font-weight:bold;">Sampai Jumpa </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Auf_Wiedersehen.mp3');">
+										<figcaption style="font-weight:bold;">Auf Wiedersehen</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Terima_kasih.mp3');">
+										<figcaption style="font-weight:bold;">Terima kasih </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Danke.mp3');">
+										<figcaption style="font-weight:bold;">Danke</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Maaf.mp3');">
+										<figcaption style="font-weight:bold;">Maaf  </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Es_Tut_mir_leid.mp3');">
+										<figcaption style="font-weight:bold;">Es Tut mir leid</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ya_!.mp3');">
+										<figcaption style="font-weight:bold;">Ya ! </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ja.mp3');">
+										<figcaption style="font-weight:bold;">Ja</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/Tidak.mp3');">
+										<figcaption style="font-weight:bold;">Tidak </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Nein.mp3');">
+										<figcaption style="font-weight:bold;">Nein</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Mungkin-bisa_jadi.mp3');">
+										<figcaption style="font-weight:bold;">Mungkin/bisa jadi </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/vielleicht.mp3');">
+										<figcaption style="font-weight:bold;">Vielleicht</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Kembali!.mp3');">
+										<figcaption style="font-weight:bold;">Kembali! </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Bitte.mp3');">
+										<figcaption style="font-weight:bold;">Bitte</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Nama_Saya.....mp3');">
+										<figcaption style="font-weight:bold;">Nama Saya.... </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ich_Heise.mp3');">
+										<figcaption style="font-weight:bold;">Ich Heise</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Umur_Saya.....mp3');">
+										<figcaption style="font-weight:bold;">Umur Saya.... </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ich_bin.mp3');">
+										<figcaption style="font-weight:bold;">Ich bin</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Saya_Tidak_Mengerti.mp3');">
+										<figcaption style="font-weight:bold;">Saya Tidak Mengerti</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/Das_verstehe_ich_nicht.mp3');">
+										<figcaption style="font-weight:bold;">Das verstehe ich nicht</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Tolong_tuliskan.mp3');">
+										<figcaption style="font-weight:bold;">Tolong tuliskan </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Bitte_schreiben_sie_das_auf.mp3');">
+										<figcaption style="font-weight:bold;">Bitte schreiben sie das auf</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Tolong_Ulang.mp3');">
+										<figcaption style="font-weight:bold;">Tolong Ulang </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Bitte_wiederholen_sie_das.mp3');">
+										<figcaption style="font-weight:bold;">Bitte wiederholen sie das</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Tolong_Tunggu_sebenta.mp3');">
+										<figcaption style="font-weight:bold;">Tolong Tunggu sebentar </figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Einen_Moment_bitte.mp3');">
+										<figcaption style="font-weight:bold;">Einen Moment bitte</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Dah-mari-yuk.mp3');">
+										<figcaption style="font-weight:bold;">Dah/mari/yuk</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Tschusss.mp3');">
+										<figcaption style="font-weight:bold;">Tschusss</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Kami_punya.mp3');">
+										<figcaption style="font-weight:bold;">Kami punya</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Wir_haben.mp3');">
+										<figcaption style="font-weight:bold;">Wir haben</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Kami_Tidak_punya.mp3');">
+										<figcaption style="font-weight:bold;">Kami Tidak punya</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Wir_haben_kein.mp3');">
+										<figcaption style="font-weight:bold;">Wir haben kein</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Saya_punya.mp3');">
+										<figcaption style="font-weight:bold;">Saya punya</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ich_Habe.mp3');">
+										<figcaption style="font-weight:bold;">Ich Habe</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="inner">
+							<figure>
+								<img class="movie-pics1" src="images/201277-200.png">
+							</figure>
+							<div class="ui-grid-a">
+								<div class="ui-block-a">
+									<figure>
+										<img class="movie-pics" src="images/Indonesia-icon.png" onclick="playAudio('/android_asset/www/audio/c/Saya_Tidak_Punya.mp3');">
+										<figcaption style="font-weight:bold;">Saya Tidak Punya</figcaption>
+									</figure>
+								</div>
+								<div class="ui-block-b">
+									<figure>
+										<img class="movie-pics" src="images/Germany-icon.png" onclick="playAudio('/android_asset/www/audio/c/Ich_Habe_kein.mp3');">
+										<figcaption style="font-weight:bold;">Ich Habe kein</figcaption>
+									</figure>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="swiper-container swiper-nav">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide active-nav">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 1</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 2</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 3</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 4</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 5</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 6</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 7</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 8</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 9</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 10</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 11</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 12</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 13</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 14</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 15</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 16</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 17</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 18</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 19</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 20</div>
+					</div>
+					<div class="swiper-slide">
+						<span class="angle"></span>
+						<img src="images/speech_balloon.png" alt="">
+						<div class="title">Sapaan 21</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="movies/js/jquery.min.js"></script>
+	<!-- Don't forget to get the latest Swiper and scrollbar version here-->
+	<script src="movies/js/idangerous.swiper-2.0.min.js"></script>
+	<script src="movies/js/movies-app.js"></script>
 </body>
-
 </html>
